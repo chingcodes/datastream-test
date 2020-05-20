@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package datastream;
+
+message DataPoint {
+	double time = 1;
+	double value = 2;
+
+	string name = 10;
+	uint64 id = 11;
+}
+
+message SubscribeReq {
+	string Query = 1;
+}
+
+service DataStreamService {
+	rpc Subscribe(SubscribeReq) returns (stream DataPoint) {}
+}
