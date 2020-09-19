@@ -2,7 +2,6 @@ package tm
 
 import (
 	"fmt"
-	"log"
 	"net"
 
 	pb "github.com/chingcodes/datastream-test/pb"
@@ -15,11 +14,11 @@ type DataStreamGen struct {
 	size int
 }
 
-func RunGrpcServer(hz int, size int) {
+func RunGrpcServer(hz int, size int) error {
 	port := 8081
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		return err
 	}
 	grpcServer := grpc.NewServer()
 
@@ -31,7 +30,7 @@ func RunGrpcServer(hz int, size int) {
 	pb.RegisterDataStreamServiceServer(grpcServer, dsg)
 
 	fmt.Printf("Starting GRPC Server on port %d\n", port)
-	grpcServer.Serve(lis)
+	return grpcServer.Serve(lis)
 }
 
 func (s *DataStreamGen) Subscribe(req *pb.SubscribeReq, srv pb.DataStreamService_SubscribeServer) (err error) {

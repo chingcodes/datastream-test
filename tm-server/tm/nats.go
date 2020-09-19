@@ -10,11 +10,11 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func PushToNats(addr string, subject string, useJson bool, hz, size int) {
+func PushToNats(addr string, subject string, useJson bool, hz, size int) error {
 	fmt.Println("Connecting to NATS server")
 	nc, err := nats.Connect(addr)
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
 	defer nc.Close()
 
@@ -27,16 +27,15 @@ func PushToNats(addr string, subject string, useJson bool, hz, size int) {
 		marshal = proto.Marshal
 	}
 
-	for db := range gen {
-		buf, err := marshal(db)
+	for dp := range gen {
+		buf, err := marshal(dp)
 		if err != nil {
-			fmt.Println(err)
-			return
+			return err
 		}
 		err = nc.Publish(subject, buf)
 		if err != nil {
-			fmt.Println(err)
-			return
+			return err
 		}
 	}
+	return nil
 }
