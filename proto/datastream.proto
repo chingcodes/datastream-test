@@ -1,4 +1,5 @@
 syntax = "proto3";
+option go_package = "github.com/chingcodes/datastream-test/pb";
 
 package datastream;
 

@@ -28,6 +28,7 @@ func main() {
 }
 
 type DataStreamGen struct {
+	pb.UnimplementedDataStreamServiceServer
 }
 
 func (s *DataStreamGen) Subscribe(req *pb.SubscribeReq, srv pb.DataStreamService_SubscribeServer) (err error) {

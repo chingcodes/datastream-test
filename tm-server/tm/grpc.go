@@ -10,6 +10,7 @@ import (
 )
 
 type DataStreamGen struct {
+	pb.UnimplementedDataStreamServiceServer
 	hz   int
 	size int
 }
