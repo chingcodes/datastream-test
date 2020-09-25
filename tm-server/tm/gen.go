@@ -43,8 +43,10 @@ func startWorker(hz, size int) {
 				Dummy: make([]byte, size),
 			}
 
+			seq := uint64(0)
 			for {
 				dp.TimeNs = uint64(time.Now().UnixNano())
+				dp.Seq = seq
 				dpChansLock.Lock()
 				for c, _ := range dpChans {
 					select {
@@ -55,6 +57,7 @@ func startWorker(hz, size int) {
 					}
 				}
 				dpChansLock.Unlock()
+				seq += 1
 				<-t.C // wait for next tick
 			}
 		}()
@@ -64,7 +67,7 @@ func startWorker(hz, size int) {
 
 func NewGen(ctx context.Context, hz int, size int) chan (*pb.DataPoint) {
 	startWorker(hz, size) // Can only start 1st
-	c := make(chan (*pb.DataPoint))
+	c := make(chan (*pb.DataPoint), 10)
 
 	addChannel(c)
 

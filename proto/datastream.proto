@@ -12,6 +12,7 @@ message DataPoint {
 
 	string name = 10;
 	uint64 id = 11;
+	uint64 seq = 12;
 
 	// Used for padding out message size
 	bytes dummy = 42;
