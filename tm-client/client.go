@@ -48,11 +48,11 @@ var (
 		Use:   "udp",
 		Short: "Listens for udp packets",
 		Run: func(cmd *cobra.Command, args []string) {
-			//err := tm.SendUdp(udp_addr, useJson, hz, size)
-			//if err != nil {
-			//	fmt.Println(err)
-			//	os.Exit(1)
-			//}
+			err := tm.ListenUdp(udp_addr, useJson)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
 		},
 	}
 
@@ -71,7 +71,7 @@ func init() {
 
 	udpCmd.Flags().BoolVar(&useJson, "json", false, "Use Json encoding")
 
-	udpCmd.Flags().StringVar(&udp_addr, "addr", "244.0.0.42:2042", "UDP address listen on")
+	udpCmd.Flags().StringVar(&udp_addr, "addr", "224.0.0.42:4242", "UDP address listen on")
 
 	cmd.AddCommand(grpcCmd, natsCmd, udpCmd)
 }

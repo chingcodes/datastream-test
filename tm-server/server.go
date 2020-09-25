@@ -74,7 +74,7 @@ func init() {
 	udpCmd.Flags().IntVar(&size, "size", 0, "Size in bytes of dummy payload")
 	udpCmd.Flags().BoolVar(&useJson, "json", false, "Use Json encoding")
 
-	udpCmd.Flags().StringVar(&udp_addr, "addr", "244.0.0.42:2042", "UDP address to send to")
+	udpCmd.Flags().StringVar(&udp_addr, "addr", "224.0.0.42:4242", "UDP address to send to")
 
 	cmd.AddCommand(grpcCmd, natsCmd, udpCmd)
 }
